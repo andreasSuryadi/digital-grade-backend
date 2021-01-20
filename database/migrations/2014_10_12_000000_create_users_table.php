@@ -16,13 +16,15 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
 
-            $table->string('nisn');
-            $table->string('nis');
+            $table->string('nisn')->nullable()->unique();
+            $table->string('nis')->nullable()->unique();
+            $table->string('nig')->nullable()->unique();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email');
-            $table->string('phone_number');
+            $table->string('email')->unique();
+            $table->string('phone_number')->unique();
             $table->string('place_of_birth');
             $table->date('date_of_birth');
             $table->enum('gender', ['Laki-laki', 'Perempuan']);
@@ -30,7 +32,11 @@ class CreateUsersTable extends Migration
             $table->string('blood_type');
             $table->string('religion')->nullable();
             $table->string('password');
+            $table->string('role');
             $table->string('profile_picture_url')->nullable();
+
+            $table->string('forgot_password_token')->nullable();
+            $table->dateTime('forgot_password_token_expiration')->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

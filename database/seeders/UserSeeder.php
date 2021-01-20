@@ -30,17 +30,23 @@ class UserSeeder extends Seeder
             $user->last_name = $faker->lastName;
             $user->phone_number = $faker->phoneNumber;
             if ($i == 0) {
-                $user->nis = "1234567890";
                 $user->email = 'admin@digitalgrade.com';
                 $user->password = Hash::make('adminApp123!');
+                $user->role = 'superadmin';
             } elseif($i == 1){
-                $user->nis = "0987654321";
-                $user->email = 'user@digitalgrade.com';
+                $user->nig = "0987654321";
+                $user->email = 'teacher@digitalgrade.com';
                 $user->password = Hash::make('123123123');
+                $user->role = 'teacher';
             } else {
+                if ($i == 2) {
+                    $user->email = 'student@digitalgrade.com';
+                }
+                $user->nisn = $faker->numberBetween(100000000000, 999999999999);
                 $user->nis = $faker->numberBetween(100000000000, 999999999999);
                 $user->email = $faker->email;
                 $user->password = Hash::make($faker->password);
+                $user->role = 'student';
             }
 
             $user->address = $faker->address;

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\TeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/forgot-password', [UserController::class, 'forgotPassword']);
+Route::put('/reset-password', [UserController::class, 'updatePasswordUsingToken']);
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'teacher'], function () {
+        Route::get('/', [TeacherController::class, 'index']);
+    });
 });
