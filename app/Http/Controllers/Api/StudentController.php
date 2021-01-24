@@ -16,14 +16,14 @@ class StudentController extends Controller
         $orderBy = $request->query('sort_field', 'users.first_name');
         $orderDirection = $request->query('sort_order', 'desc');
 
-        $Students = User::where(function ($x) use ($search) {
+        $students = User::where(function ($x) use ($search) {
             $x->where('first_name', 'LIKE', '%' . $search . '%')
                 ->orWhere('last_name', 'LIKE', '%' . $search . '%');
         })
             ->where('role', 'student');
 
-        $Students = $Students->orderBy($orderBy, $orderDirection)->paginate($perPage);
+        $students = $students->orderBy($orderBy, $orderDirection)->paginate($perPage);
 
-        return ListStudentResource::collection($Students);
+        return ListStudentResource::collection($students);
     }
 }
