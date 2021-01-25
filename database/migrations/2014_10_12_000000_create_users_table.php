@@ -30,7 +30,6 @@ class CreateUsersTable extends Migration
             $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->text('address');
             $table->string('blood_type');
-            $table->string('religion')->nullable();
             $table->string('password');
             $table->string('role');
             $table->string('profile_picture_url')->nullable();

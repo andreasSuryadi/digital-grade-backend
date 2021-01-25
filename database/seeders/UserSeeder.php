@@ -23,56 +23,33 @@ class UserSeeder extends Seeder
         $faker->addProvider(new LoremFlickrProvider($faker));
         $faker->addProvider(new ImagesGeneratorProvider($faker));
 
-        for ($i = 0; $i < 20; $i++) {
-            $user = new User();
-            $user->nisn = $faker->numberBetween(100000000000, 999999999999);
-            $user->first_name = $faker->firstName;
-            $user->last_name = $faker->lastName;
-            $user->phone_number = $faker->phoneNumber;
-            if ($i == 0) {
-                $user->email = 'admin@digitalgrade.com';
-                $user->password = Hash::make('adminApp123!');
-                $user->role = 'superadmin';
-            } elseif($i == 1){
-                $user->nig = "0987654321";
-                $user->email = 'teacher@digitalgrade.com';
-                $user->password = Hash::make('123123123');
-                $user->role = 'teacher';
-            } else {
-                if ($i == 2) {
-                    $user->email = 'student@digitalgrade.com';
-                }
-                $user->nisn = $faker->numberBetween(100000000000, 999999999999);
-                $user->nis = $faker->numberBetween(100000000000, 999999999999);
-                $user->email = $faker->email;
-                $user->password = Hash::make($faker->password);
-                $user->role = 'student';
-            }
+        $user = new User();
+        $user->first_name = $faker->firstName;
+        $user->last_name = $faker->lastName;
+        $user->phone_number = $faker->phoneNumber;
+        $user->email = 'admin@digitalgrade.com';
+        $user->password = Hash::make('adminApp123!');
+        $user->role = 'superadmin';
 
-            $user->address = $faker->address;
-            $user->blood_type = $faker->randomElement($array = ['A', 'B', 'O', 'AB']);
-            $user->place_of_birth = $faker->city;
-            $user->date_of_birth = $faker->dateTimeThisCentury->format('Y-m-d');
+        $user->address = $faker->address;
+        $user->blood_type = $faker->randomElement($array = ['A', 'B', 'O', 'AB']);
+        $user->place_of_birth = $faker->city;
+        $user->date_of_birth = $faker->dateTimeThisCentury->format('Y-m-d');
 
-            if($i%2 == 0){
-                $user->gender = "Laki-laki";
-            }else{
-                $user->gender = "Perempuan";
-            }
+        $user->gender = "Laki-laki";
 
-            $user->remember_token = $faker->boolean;
+        $user->remember_token = $faker->boolean;
 
-            $path = "public/users/" . $user->id . "/profile";
+        $path = "public/users/" . $user->id . "/profile";
 
-            Storage::deleteDirectory($path);
-            Storage::makeDirectory($path);
-            $firstLetter = substr($user->first_name, 0, 1);
-            $secondLetter = substr($user->last_name, 0, 1);
-            $filenamePath = $faker->imageGenerator($dir = storage_path('app/public') . '/users/' . $user->id . '/profile', $width = 200, $height = 200, $format = 'png', $fullPath = false, $text = ($firstLetter.$secondLetter));
+        Storage::deleteDirectory($path);
+        Storage::makeDirectory($path);
+        $firstLetter = substr($user->first_name, 0, 1);
+        $secondLetter = substr($user->last_name, 0, 1);
+        $filenamePath = $faker->imageGenerator($dir = storage_path('app/public') . '/users/' . $user->id . '/profile', $width = 200, $height = 200, $format = 'png', $fullPath = false, $text = ($firstLetter.$secondLetter));
 
-            $user->profile_picture_url = $filenamePath;
+        $user->profile_picture_url = $filenamePath;
 
-            $user->save();
-        }
+        $user->save();
     }
 }

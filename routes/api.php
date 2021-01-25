@@ -22,5 +22,9 @@ Route::put('/reset-password', [UserController::class, 'updatePasswordUsingToken'
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'teacher'], function () {
         Route::get('/', [TeacherController::class, 'index']);
+        Route::post('/', [TeacherController::class, 'create']);
+        Route::get('{id}/show', [TeacherController::class, 'show']);
+        Route::put('{id}/update', [TeacherController::class, 'update']);
+        Route::delete('{id}/delete', [TeacherController::class, 'delete']);
     });
 });
