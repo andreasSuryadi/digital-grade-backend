@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\TeacherController;
+use App\Http\Controllers\Api\StudentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,12 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('{id}/show', [TeacherController::class, 'show']);
         Route::put('{id}/update', [TeacherController::class, 'update']);
         Route::delete('{id}/delete', [TeacherController::class, 'delete']);
+    });
+    Route::group(['prefix' => 'student'], function () {
+        Route::get('/', [StudentController::class, 'index']);
+        Route::post('/', [StudentController::class, 'create']);
+        Route::get('{id}/show', [StudentController::class, 'show']);
+        Route::put('{id}/update', [StudentController::class, 'update']);
+        Route::delete('{id}/delete', [StudentController::class, 'delete']);
     });
 });
