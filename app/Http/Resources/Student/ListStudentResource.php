@@ -17,8 +17,9 @@ class ListStudentResource extends JsonResource
         return [
             'id' => $this->id,
             'nis' => $this->nis,
+            'nisn' => $this->nisn,
             'full_name' => $this->first_name . " " . $this->last_name,
-            'class' => $this->class,
+            //'class' => $this->class,
             'email' => $this->email,
             'phone_number' => $this->phone_number,
             'place_of_birth' => $this->place_of_birth,

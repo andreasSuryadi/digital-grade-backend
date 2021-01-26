@@ -30,5 +30,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     });
     Route::group(['prefix' => 'student'], function () {
         Route::get('/', [StudentController::class, 'index']);
+        Route::post('/', [StudentController::class, 'create']);
+        Route::get('{id}/show', [StudentController::class, 'show']);
+        Route::put('{id}/update', [StudentController::class, 'update']);
+        Route::delete('{id}/delete', [StudentController::class, 'delete']);
     });
 });
