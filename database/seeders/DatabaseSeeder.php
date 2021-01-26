@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             OauthClientSeeder::class,
             UserSeeder::class,
+            TeacherSeeder::class,
+            StudentSeeder::class,
         ]);
     }
 }
