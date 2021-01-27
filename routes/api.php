@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\TeacherController;
 use App\Http\Controllers\Api\StudentController;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ Route::post('/forgot-password', [UserController::class, 'forgotPassword']);
 Route::put('/reset-password', [UserController::class, 'updatePasswordUsingToken']);
 
 Route::group(['middleware' => 'auth:api'], function () {
+    /** For Teacher */
     Route::group(['prefix' => 'teacher'], function () {
         Route::get('/', [TeacherController::class, 'index']);
         Route::post('/', [TeacherController::class, 'create']);
@@ -28,6 +30,9 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::put('{id}/update', [TeacherController::class, 'update']);
         Route::delete('{id}/delete', [TeacherController::class, 'delete']);
     });
+    /** End For Teacher */
+
+    /** For Student */
     Route::group(['prefix' => 'student'], function () {
         Route::get('/', [StudentController::class, 'index']);
         Route::post('/', [StudentController::class, 'create']);
@@ -35,4 +40,15 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::put('{id}/update', [StudentController::class, 'update']);
         Route::delete('{id}/delete', [StudentController::class, 'delete']);
     });
+    /** End For Student */
+    
+    /** For Course */
+    Route::group(['prefix' => 'course'], function () {
+        Route::get('/', [CourseController::class, 'index']);
+        Route::post('/', [CourseController::class, 'create']);
+        Route::get('{id}/show', [CourseController::class, 'show']);
+        Route::put('{id}/update', [CourseController::class, 'update']);
+        Route::delete('{id}/delete', [CourseController::class, 'delete']);
+    });
+    /** End For Course */
 });

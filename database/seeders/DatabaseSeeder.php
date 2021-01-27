@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             TeacherSeeder::class,
             StudentSeeder::class,
+            CourseSeeder::class,
+            ClassSeeder::class,
         ]);
     }
 }
