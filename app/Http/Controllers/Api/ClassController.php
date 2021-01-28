@@ -8,7 +8,7 @@ use App\Models\Classes;
 use Illuminate\Http\Request;
 use Validator;
 
-class ClassControler extends Controller
+class ClassController extends Controller
 {
     public function index(Request $request)
     {
