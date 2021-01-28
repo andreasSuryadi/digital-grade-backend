@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\TeacherController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\ClassController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,10 +20,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/forgot-password', [UserController::class, 'forgotPassword']);
-Route::put('/reset-password', [UserController::class, 'updatePasswordUsingToken']);
+// Route::post('/forgot-password', [UserController::class, 'forgotPassword']);
+// Route::put('/reset-password', [UserController::class, 'updatePasswordUsingToken']);
 
 Route::group(['middleware' => 'auth:api'], function () {
+    /** For get user info from token */
+    Route::get('token/user/detail', [UserController::class, 'getUserInfoFromToken']);
+    /** End for get user info from token */
+
     /** For Teacher */
     Route::group(['prefix' => 'teacher'], function () {
         Route::get('/', [TeacherController::class, 'index']);
