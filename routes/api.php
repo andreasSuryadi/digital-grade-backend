@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\TeacherController;
 use App\Http\Controllers\Api\StudentController;
+use App\Http\Controllers\Api\ClassController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,4 +52,14 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::delete('{id}/delete', [CourseController::class, 'delete']);
     });
     /** End For Course */
+    
+    /** For Class */
+    Route::group(['prefix' => 'class'], function () {
+        Route::get('/', [ClassController::class, 'index']);
+        Route::post('/', [ClassController::class, 'create']);
+        Route::get('{id}/show', [ClassController::class, 'show']);
+        Route::put('{id}/update', [ClassController::class, 'update']);
+        Route::delete('{id}/delete', [ClassController::class, 'delete']);
+    });
+    /** End For Class */
 });
