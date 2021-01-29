@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\TeacherController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\ClassController;
+use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,9 +36,10 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('{id}/show', [TeacherController::class, 'show']);
         Route::put('{id}/update', [TeacherController::class, 'update']);
         Route::delete('{id}/delete', [TeacherController::class, 'delete']);
+        Route::get('search-teacher-by-name', [TeacherController::class, 'searchTeacherByName']);
     });
     /** End For Teacher */
-
+    
     /** For Student */
     Route::group(['prefix' => 'student'], function () {
         Route::get('/', [StudentController::class, 'index']);
@@ -55,6 +57,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('{id}/show', [CourseController::class, 'show']);
         Route::put('{id}/update', [CourseController::class, 'update']);
         Route::delete('{id}/delete', [CourseController::class, 'delete']);
+        Route::get('search-course-by-name', [CourseController::class, 'searchCourseByName']);
     });
     /** End For Course */
     
@@ -65,6 +68,17 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('{id}/show', [ClassController::class, 'show']);
         Route::put('{id}/update', [ClassController::class, 'update']);
         Route::delete('{id}/delete', [ClassController::class, 'delete']);
+        Route::get('search-class-by-name', [ClassController::class, 'searchClassByName']);
     });
     /** End For Class */
+    
+    /** For Schedule */
+    Route::group(['prefix' => 'schedule'], function () {
+        Route::get('/', [ScheduleController::class, 'index']);
+        Route::post('/', [ScheduleController::class, 'create']);
+        Route::get('{id}/show', [ScheduleController::class, 'show']);
+        Route::put('{id}/update', [ScheduleController::class, 'update']);
+        Route::delete('{id}/delete', [ScheduleController::class, 'delete']);
+    });
+    /** End For Schedule */
 });

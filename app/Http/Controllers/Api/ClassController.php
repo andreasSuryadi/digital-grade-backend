@@ -77,4 +77,13 @@ class ClassController extends Controller
 
         return response()->json($classes);
     }
+
+    public function searchClassByName(Request $request)
+    {
+        $search = $request->search;
+
+        $classes = Classes::where('name', 'LIKE', '%' . $search . '%')->get();
+
+        return response()->json($classes);
+    }
 }

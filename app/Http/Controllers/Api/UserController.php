@@ -25,7 +25,7 @@ class UserController extends Controller
             'place_of_birth' => $authenticatedUser->place_of_birth,
             'date_of_birth' => $authenticatedUser->date_of_birth,
             'gender' => $authenticatedUser->gender,
-            'profile_picture_url' => $authenticatedUser->profile_picture_url ? env('APP_URL') . '/storage/users/' . $authenticatedUser->id . '/profile/' . $authenticatedUser->profile_picture_url : null,
+            'profile_picture_url' => $authenticatedUser->profile_picture_url ? '/storage/users/' . $authenticatedUser->id . '/profile/' . $authenticatedUser->profile_picture_url : null,
             'address' => $authenticatedUser->address,
             'blood_type' => $authenticatedUser->blood_type,
             'role' => $authenticatedUser->role,

@@ -31,7 +31,7 @@ class StudentController extends Controller
 
     public function show($id)
     {
-        $student = User::find($id);
+        $student = User::with(['class'])->find($id);
 
         return response()->json($student);
     }
@@ -43,7 +43,7 @@ class StudentController extends Controller
             'nisn' => 'required|string',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            //'class' => 'required|string',
+            'class' => 'required',
             'phone_number' => 'required|numeric',
             'email' => 'required|email',
             'password' => 'required|string|max:255',
@@ -62,11 +62,11 @@ class StudentController extends Controller
         }
 
         $student = new User();
+        $student->class_id = $request->class[0]['id'];
         $student->nis = $request->nis;
         $student->nisn = $request->nisn;
         $student->first_name = $request->first_name;
         $student->last_name = $request->last_name;
-        //$student->class = $request->class;
         $student->phone_number = $request->phone_number;
         $student->place_of_birth = $request->place_of_birth;
         $student->date_of_birth = $request->date_of_birth;
@@ -90,7 +90,7 @@ class StudentController extends Controller
             'nisn' => 'required|string',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            //'class' => 'required|string',
+            'class' => 'required',
             'phone_number' => 'required|numeric',
             'email' => 'required|email',
             'address' => 'required|string',
@@ -107,11 +107,11 @@ class StudentController extends Controller
             ], 400);
         }
 
+        $student->class_id = $request->class[0]['id'];
         $student->nis = $request->nis;
         $student->nisn = $request->nisn;
         $student->first_name = $request->first_name;
         $student->last_name = $request->last_name;
-        //$student->class = $request->class;
         $student->phone_number = $request->phone_number;
         $student->place_of_birth = $request->place_of_birth;
         $student->date_of_birth = $request->date_of_birth;

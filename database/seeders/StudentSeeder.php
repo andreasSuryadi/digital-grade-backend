@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Classes;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use bheller\ImagesGenerator\ImagesGeneratorProvider;
@@ -23,10 +24,13 @@ class StudentSeeder extends Seeder
         $faker->addProvider(new LoremFlickrProvider($faker));
         $faker->addProvider(new ImagesGeneratorProvider($faker));
 
+        $classes = Classes::all()->pluck('id');
+
         for ($i = 0; $i < 15; $i++) {
             $user = new User();
             $user->first_name = $faker->firstName;
             $user->last_name = $faker->lastName;
+            $user->class_id = $faker->randomElement($classes);
             $user->phone_number = $faker->phoneNumber;
             if ($i == 0) {
                 $user->nisn = "0987654321";
@@ -53,6 +57,8 @@ class StudentSeeder extends Seeder
             }
 
             $user->remember_token = $faker->boolean;
+
+            $user->save();
 
             $path = "public/users/" . $user->id . "/profile";
 

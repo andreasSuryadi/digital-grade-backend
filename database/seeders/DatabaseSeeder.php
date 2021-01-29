@@ -17,9 +17,10 @@ class DatabaseSeeder extends Seeder
             OauthClientSeeder::class,
             UserSeeder::class,
             TeacherSeeder::class,
+            ClassSeeder::class,
             StudentSeeder::class,
             CourseSeeder::class,
-            ClassSeeder::class,
+            ScheduleSeeder::class,
         ]);
     }
 }

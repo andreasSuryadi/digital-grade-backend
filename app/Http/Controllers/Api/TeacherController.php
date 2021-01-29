@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use DB;
 
 class TeacherController extends Controller
 {
@@ -123,5 +124,19 @@ class TeacherController extends Controller
         $teacher->delete();
 
         return response()->json($teacher);
+    }
+
+    public function searchTeacherByName(Request $request)
+    {
+        $search = $request->search;
+
+        $teachers = User::where(function ($x) use ($search) {
+                $x->where('first_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+            })
+            ->where('role', 'teacher')
+            ->get();
+
+        return response()->json($teachers);
     }
 }

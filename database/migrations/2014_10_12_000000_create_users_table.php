@@ -18,6 +18,8 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreignId('class_id')->nullable()->constrained('classes');
+
             $table->string('nisn')->nullable()->unique();
             $table->string('nis')->nullable()->unique();
             $table->string('nig')->nullable()->unique();

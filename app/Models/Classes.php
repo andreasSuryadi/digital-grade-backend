@@ -19,4 +19,9 @@ class Classes extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
 }

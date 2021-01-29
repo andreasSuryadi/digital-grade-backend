@@ -27,9 +27,9 @@ class CourseController extends Controller
 
     public function show($id)
     {
-        $student = Course::find($id);
+        $course = Course::find($id);
 
-        return response()->json($student);
+        return response()->json($course);
     }
 
     public function create(Request $request)
@@ -81,5 +81,14 @@ class CourseController extends Controller
         $course->delete();
 
         return response()->json($course);
+    }
+
+    public function searchCourseByName(Request $request)
+    {
+        $search = $request->search;
+
+        $courses = Course::where('name', 'LIKE', '%' . $search . '%')->get();
+
+        return response()->json($courses);
     }
 }

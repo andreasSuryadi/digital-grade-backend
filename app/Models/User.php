@@ -19,6 +19,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'classes_id',
+
         'nisn',
         'nis',
         'nig',
@@ -53,4 +55,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = ['full_name'];
+
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
+    }
+
+    public function class()
+    {
+        return $this->belongsTo(Classes::class);
+    }
 }

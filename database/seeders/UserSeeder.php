@@ -40,13 +40,13 @@ class UserSeeder extends Seeder
 
         $user->remember_token = $faker->boolean;
 
-        $path = "public/users/" . $user->id . "/profile";
+        $path = "public/users/1/profile";
 
         Storage::deleteDirectory($path);
         Storage::makeDirectory($path);
         $firstLetter = substr($user->first_name, 0, 1);
         $secondLetter = substr($user->last_name, 0, 1);
-        $filenamePath = $faker->imageGenerator($dir = storage_path('app/public') . '/users/' . $user->id . '/profile', $width = 200, $height = 200, $format = 'png', $fullPath = false, $text = ($firstLetter.$secondLetter));
+        $filenamePath = $faker->imageGenerator($dir = storage_path('app/public') . '/users/1/profile', $width = 200, $height = 200, $format = 'png', $fullPath = false, $text = ($firstLetter.$secondLetter));
 
         $user->profile_picture_url = $filenamePath;
 

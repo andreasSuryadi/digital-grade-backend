@@ -52,6 +52,8 @@ class TeacherSeeder extends Seeder
 
             $user->remember_token = $faker->boolean;
 
+            $user->save();
+
             $path = "public/users/" . $user->id . "/profile";
 
             Storage::deleteDirectory($path);
