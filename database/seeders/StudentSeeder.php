@@ -30,7 +30,6 @@ class StudentSeeder extends Seeder
             $user = new User();
             $user->first_name = $faker->firstName;
             $user->last_name = $faker->lastName;
-            $user->class_id = $faker->randomElement($classes);
             $user->phone_number = $faker->phoneNumber;
             if ($i == 0) {
                 $user->nisn = "0987654321";

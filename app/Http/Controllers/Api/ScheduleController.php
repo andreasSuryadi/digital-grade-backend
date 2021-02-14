@@ -38,7 +38,7 @@ class ScheduleController extends Controller
 
     public function show($id)
     {
-        $schedule = Schedule::with(['user', 'course', 'class'])->find($id);
+        $schedule = Schedule::with(['user', 'course', 'class', 'schoolYear'])->find($id);
 
         return response()->json($schedule);
     }
@@ -49,6 +49,7 @@ class ScheduleController extends Controller
             'class' => 'required',
             'teacher' => 'required',
             'course' => 'required',
+            'school_year' => 'required',
             'day' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
@@ -64,6 +65,7 @@ class ScheduleController extends Controller
         $schedule->class_id = $request->class[0]['id'];
         $schedule->user_id = $request->teacher[0]['id'];
         $schedule->course_id = $request->course[0]['id'];
+        $schedule->school_year_id = $request->school_year;
         $schedule->day = $request->day;
         $schedule->start_time = date("H:i:s", strtotime($request->start_time));
         $schedule->end_time = date("H:i:s", strtotime($request->end_time));
@@ -80,6 +82,7 @@ class ScheduleController extends Controller
             'class' => 'required',
             'teacher' => 'required',
             'course' => 'required',
+            'school_year' => 'required',
             'day' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
@@ -94,6 +97,7 @@ class ScheduleController extends Controller
         $schedule->class_id = $request->class[0]['id'];
         $schedule->user_id = $request->teacher[0]['id'];
         $schedule->course_id = $request->course[0]['id'];
+        $schedule->school_year_id = $request->school_year;
         $schedule->day = $request->day;
         $schedule->start_time = $request->start_time;
         $schedule->end_time = $request->end_time;

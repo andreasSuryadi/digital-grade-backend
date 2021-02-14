@@ -15,11 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->foreignId('class_id')->nullable()->constrained('classes');
-
+            
             $table->string('nisn')->nullable()->unique();
             $table->string('nis')->nullable()->unique();
             $table->string('nig')->nullable()->unique();
@@ -35,12 +31,14 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('role');
             $table->string('profile_picture_url')->nullable();
-
+            
             $table->string('forgot_password_token')->nullable();
             $table->dateTime('forgot_password_token_expiration')->nullable();
-
+            
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
+            
+            $table->timestamps();
         });
     }
 

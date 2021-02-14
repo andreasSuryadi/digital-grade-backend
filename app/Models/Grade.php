@@ -5,17 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class Grade extends Model
 {
     use HasFactory;
 
+    protected $table = 'grades';
+
     protected $fillable = [
-        'code',
-        'name',
+        'classes_user_id',
+        'schedule_id',
+
+        'grade',
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'date_of_birth' => 'datetime',
     ];
 }

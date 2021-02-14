@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Classes;
+use App\Models\ClassesUser;
 use App\Models\User;
 use bheller\ImagesGenerator\ImagesGeneratorProvider;
 use Illuminate\Database\Seeder;
@@ -51,5 +53,14 @@ class UserSeeder extends Seeder
         $user->profile_picture_url = $filenamePath;
 
         $user->save();
+
+        $classes = Classes::all();
+
+        foreach ($classes as $class) {
+            ClassesUser::create([
+                'classes_id' => $class->id,
+                'user_id' => $user->id,
+            ]);
+        }
     }
 }

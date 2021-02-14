@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\TeacherController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\ClassController;
 use App\Http\Controllers\Api\ScheduleController;
+use App\Http\Controllers\Api\SchoolYearController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -71,6 +72,14 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('search-class-by-name', [ClassController::class, 'searchClassByName']);
     });
     /** End For Class */
+
+    /** For School Year */
+    Route::group(['prefix' => 'school-year'], function () {
+        Route::get('/', [SchoolYearController::class, 'index']);
+        Route::post('/', [SchoolYearController::class, 'create']);
+        Route::get('get-school-year', [SchoolYearController::class, 'getSchoolYear']);
+    });
+    /** End For School Year */
     
     /** For Schedule */
     Route::group(['prefix' => 'schedule'], function () {

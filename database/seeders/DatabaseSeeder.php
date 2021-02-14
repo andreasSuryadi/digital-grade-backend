@@ -14,12 +14,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            OauthClientSeeder::class,
             UserSeeder::class,
             TeacherSeeder::class,
             ClassSeeder::class,
             StudentSeeder::class,
             CourseSeeder::class,
+            SchoolYearSeeder::class,
             ScheduleSeeder::class,
         ]);
     }
