@@ -15,7 +15,7 @@ class UserController extends Controller
 
         return response()->json([
             'id' => $authenticatedUser->id,
-            'nig' => $authenticatedUser->nig,
+            'nip' => $authenticatedUser->nip,
             'nis' => $authenticatedUser->nis,
             'nisn' => $authenticatedUser->nisn,
             'first_name' => $authenticatedUser->first_name,

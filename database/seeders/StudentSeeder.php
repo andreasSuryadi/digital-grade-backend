@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Classes;
+use App\Models\ClassesUser;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use bheller\ImagesGenerator\ImagesGeneratorProvider;
@@ -70,6 +71,11 @@ class StudentSeeder extends Seeder
             $user->profile_picture_url = $filenamePath;
 
             $user->save();
+
+            ClassesUser::create([
+                'user_id' => $user->id,
+                'classes_id' => $faker->randomElement($classes)
+            ]);
         }
     }
 }

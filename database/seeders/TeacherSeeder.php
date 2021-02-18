@@ -29,11 +29,11 @@ class TeacherSeeder extends Seeder
             $user->last_name = $faker->lastName;
             $user->phone_number = $faker->phoneNumber;
             if($i == 0){
-                $user->nig = "0987654321";
+                $user->nip = "0987654321";
                 $user->email = 'teacher@digitalgrade.com';
                 $user->password = Hash::make('123123123');
             } else {
-                $user->nig = $faker->numberBetween(100000000000, 999999999999);
+                $user->nip = $faker->numberBetween(100000000000, 999999999999);
                 $user->email = $faker->email;
                 $user->password = Hash::make($faker->password);
             }

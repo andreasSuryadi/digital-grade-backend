@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\TeacherController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\ClassController;
+use App\Http\Controllers\Api\GradeController;
 use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\SchoolYearController;
 use App\Http\Controllers\Api\UserController;
@@ -48,6 +49,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('{id}/show', [StudentController::class, 'show']);
         Route::put('{id}/update', [StudentController::class, 'update']);
         Route::delete('{id}/delete', [StudentController::class, 'delete']);
+        Route::get('search-student-by-name', [StudentController::class, 'searchStudentByName']);
     });
     /** End For Student */
     
@@ -70,6 +72,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::put('{id}/update', [ClassController::class, 'update']);
         Route::delete('{id}/delete', [ClassController::class, 'delete']);
         Route::get('search-class-by-name', [ClassController::class, 'searchClassByName']);
+        Route::get('get-class-by-student', [ClassController::class, 'getClassByStudent']);
     });
     /** End For Class */
 
@@ -88,6 +91,17 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('{id}/show', [ScheduleController::class, 'show']);
         Route::put('{id}/update', [ScheduleController::class, 'update']);
         Route::delete('{id}/delete', [ScheduleController::class, 'delete']);
+        Route::get('get-schedule-by-nip', [ScheduleController::class, 'getScheduleByNip']);
+        Route::get('{classId}/get-schedule-by-class', [ScheduleController::class, 'getScheduleByClass']);
     });
     /** End For Schedule */
+
+    /** For Grade */
+    Route::group(['prefix' => 'grade'], function () {
+        Route::get('{scheduleId}/get-data', [GradeController::class, 'getGradeBySchedule']);
+        Route::get('{classId}/get-grade-by-class', [GradeController::class, 'getGradeByClass']);
+        Route::get('{classId}/print-raport', [GradeController::class, 'printRaport']);
+        Route::post('save-data', [GradeController::class, 'saveGradeByClass']);
+    });
+    /** End For Grade */
 });

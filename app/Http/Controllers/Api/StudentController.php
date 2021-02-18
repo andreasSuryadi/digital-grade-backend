@@ -132,4 +132,18 @@ class StudentController extends Controller
 
         return response()->json($student);
     }
+
+    public function searchStudentByName(Request $request)
+    {
+        $search = $request->search;
+
+        $students = User::where(function ($x) use ($search) {
+                $x->where('first_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+            })
+            ->where('role', 'student')
+            ->get();
+
+        return response()->json($students);
+    }
 }

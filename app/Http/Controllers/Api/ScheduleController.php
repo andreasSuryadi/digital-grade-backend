@@ -113,4 +113,64 @@ class ScheduleController extends Controller
 
         return response()->json($schedule);
     }
+
+    public function getScheduleByNip(Request $request)
+    {
+        $search = $request->search;
+        $perPage = $request->query('per_page', 10);
+        $orderBy = $request->query('sort_field', 'schedules.name');
+        $orderDirection = $request->query('sort_order', 'desc');
+
+        $schedules = Schedule::with(['user', 'class', 'course', 'schoolYear'])
+            ->where(function ($x) use ($search) {
+                $x->whereHas('user', function ($x) use ($search) {
+                    $x->where('first_name', 'LIKE', '%' . $search . '%')
+                        ->where('last_name', 'LIKE', '%' . $search . '%');
+                })
+                ->orWhereHas('class', function ($x) use ($search) {
+                    $x->where('name', 'LIKE', '%' . $search . '%');
+                })
+                ->orWhereHas('course', function ($x) use ($search) {
+                    $x->where('name', 'LIKE', '%' . $search . '%');
+                })
+                ->orWhere('day', 'LIKE', '%' . $search . '%');
+            })
+            ->where('user_id', $request->user()->id);
+
+        $schedules = $schedules->orderBy($orderBy, $orderDirection)->paginate($perPage);
+
+        return ListScheduleResource::collection($schedules);
+    }
+
+    public function getScheduleByClass(Request $request, $classId)
+    {
+        $search = $request->search;
+        $perPage = $request->query('per_page', 10);
+        $orderBy = $request->query('sort_field', 'day');
+        $orderDirection = $request->query('sort_order', 'asc');
+        $semester = $request->semester == 0 ? 1 : 2;
+
+        $schedules = Schedule::with(['user', 'class', 'course', 'schoolYear'])
+            ->where(function ($x) use ($search) {
+                $x->whereHas('user', function ($x) use ($search) {
+                    $x->where('first_name', 'LIKE', '%' . $search . '%')
+                        ->where('last_name', 'LIKE', '%' . $search . '%');
+                })
+                ->orWhereHas('class', function ($x) use ($search) {
+                    $x->where('name', 'LIKE', '%' . $search . '%');
+                })
+                ->orWhereHas('course', function ($x) use ($search) {
+                    $x->where('name', 'LIKE', '%' . $search . '%');
+                })
+                ->orWhere('day', 'LIKE', '%' . $search . '%');
+            })
+            ->whereHas('schoolYear', function ($x) use ($semester) {
+                $x->where('semester', $semester);
+            })
+            ->where('class_id', $classId);
+
+        $schedules = $schedules->orderBy($orderBy, $orderDirection)->paginate($perPage);
+
+        return ListScheduleResource::collection($schedules);
+    }
 }

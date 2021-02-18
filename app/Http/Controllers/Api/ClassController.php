@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Classes\ListClassResource;
 use App\Models\Classes;
+use App\Models\ClassesUser;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -26,15 +27,17 @@ class ClassController extends Controller
 
     public function show($id)
     {
-        $student = Classes::find($id);
+        $class = Classes::with(['user'])
+            ->find($id);
 
-        return response()->json($student);
+        return response()->json($class);
     }
 
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'user' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -47,6 +50,13 @@ class ClassController extends Controller
         $class->name = $request->name;
         $class->save();
 
+        foreach ($request->user as $user) {
+            ClassesUser::create([
+                'classes_id' => $class->id,
+                'user_id' => $user['id'],
+            ]);
+        }
+
         return response()->json($class);
     }
 
@@ -56,6 +66,7 @@ class ClassController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'user' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -66,6 +77,13 @@ class ClassController extends Controller
 
         $class->name = $request->name;
         $class->save();
+
+        foreach ($request->user as $user) {
+            ClassesUser::create([
+                'classes_id' => $class->id,
+                'user_id' => $user['id'],
+            ]);
+        }
 
         return response()->json($class);
     }
@@ -85,5 +103,23 @@ class ClassController extends Controller
         $classes = Classes::where('name', 'LIKE', '%' . $search . '%')->get();
 
         return response()->json($classes);
+    }
+
+    public function getClassByStudent(Request $request)
+    {
+        $search = $request->search;
+        $perPage = $request->query('per_page', 10);
+        $orderBy = $request->query('sort_field', 'courses.name');
+        $orderDirection = $request->query('sort_order', 'desc');
+
+        $classes = Classes::with(['user'])
+            ->whereHas('user', function ($x) use ($request) {
+                $x->where('nis', $request->user()->nis);
+            })
+            ->where('name', 'LIKE', '%' . $search . '%');
+
+        $classes = $classes->orderBy($orderBy, $orderDirection)->paginate($perPage);
+
+        return ListClassResource::collection($classes);
     }
 }
