@@ -43,7 +43,6 @@ class StudentController extends Controller
             'nisn' => 'required|string',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'class' => 'required',
             'phone_number' => 'required|numeric',
             'email' => 'required|email',
             'password' => 'required|string|max:255',
@@ -62,7 +61,6 @@ class StudentController extends Controller
         }
 
         $student = new User();
-        $student->class_id = $request->class[0]['id'];
         $student->nis = $request->nis;
         $student->nisn = $request->nisn;
         $student->first_name = $request->first_name;
@@ -90,7 +88,6 @@ class StudentController extends Controller
             'nisn' => 'required|string',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'class' => 'required',
             'phone_number' => 'required|numeric',
             'email' => 'required|email',
             'address' => 'required|string',
@@ -107,7 +104,6 @@ class StudentController extends Controller
             ], 400);
         }
 
-        $student->class_id = $request->class[0]['id'];
         $student->nis = $request->nis;
         $student->nisn = $request->nisn;
         $student->first_name = $request->first_name;
