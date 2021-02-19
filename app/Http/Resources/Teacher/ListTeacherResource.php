@@ -16,7 +16,7 @@ class ListTeacherResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'nig' => $this->nig,
+            'nip' => $this->nip,
             'full_name' => $this->first_name . " " . $this->last_name,
             'email' => $this->email,
             'phone_number' => $this->phone_number,

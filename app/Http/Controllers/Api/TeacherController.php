@@ -40,7 +40,7 @@ class TeacherController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nig' => 'required|string',
+            'nip' => 'required|string',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'phone_number' => 'required|numeric',
@@ -61,7 +61,7 @@ class TeacherController extends Controller
         }
 
         $teacher = new User();
-        $teacher->nig = $request->nig;
+        $teacher->nip = $request->nip;
         $teacher->first_name = $request->first_name;
         $teacher->last_name = $request->last_name;
         $teacher->phone_number = $request->phone_number;
@@ -83,7 +83,7 @@ class TeacherController extends Controller
         $teacher = User::find($id);
 
         $validator = Validator::make($request->all(), [
-            'nig' => 'required|string',
+            'nip' => 'required|string',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'phone_number' => 'required|numeric',
@@ -102,7 +102,7 @@ class TeacherController extends Controller
             ], 400);
         }
 
-        $teacher->nig = $request->nig;
+        $teacher->nip = $request->nip;
         $teacher->first_name = $request->first_name;
         $teacher->last_name = $request->last_name;
         $teacher->phone_number = $request->phone_number;
