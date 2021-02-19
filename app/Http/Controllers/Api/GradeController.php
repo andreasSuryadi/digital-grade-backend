@@ -23,30 +23,30 @@ class GradeController extends Controller
 
         $schedule = Schedule::find($scheduleId);
 
-        $classes = Classes::with(['student'])
+        $classes = Classes::with(['user'])
             ->whereId($schedule->class_id)
             ->first();
 
         $gradeData = [];
         if (count($grades) == 0) {
-            foreach ($classes->student as $student) {
+            foreach ($classes->user as $user) {
                 $gradeData[] = [
-                    'nis' => $student->nis,
+                    'nis' => $user->nis,
                     'class_id' => $classes->id,
-                    'name' => $student->name,
+                    'name' => $user->first_name . ' ' . $user->last_name,
                     'grade' => 0,
                 ];
             }
         } else {
             foreach ($grades as $grade) {
-                $classesStudent = ClassesUser::find($grade->classes_student_id);
+                $classesStudent = ClassesUser::find($grade->classes_user_id);
 
-                $student = User::find($classesStudent->student_nis);
+                $student = User::find($classesStudent->user_id);
                 
                 $gradeData[] = [
                     'nis' => $student->nis,
                     'class_id' => $classes->id,
-                    'name' => $student->name,
+                    'name' => $student->first_name . ' ' . $student->last_name,
                     'grade' => $grade->grade,
                 ];
             }
@@ -60,17 +60,19 @@ class GradeController extends Controller
         $grades = $request->grades;
 
         foreach ($grades as $grade) {
-            $classesStudent = ClassesStudent::where('classes_id', $grade['classId'])
-                ->where('student_nis', $grade['studentNis'])
+            $user = User::where('nis', $grade['studentNis'])->first();
+
+            $classesStudent = ClassesUser::where('classes_id', $grade['classId'])
+                ->where('user_id', $user->id)
                 ->first();
 
-            $gradeData = Grade::where('classes_student_id', $classesStudent->id)
+            $gradeData = Grade::where('classes_user_id', $classesStudent->id)
                 ->where('schedule_id', $request->id)
                 ->first();
 
             if (is_null($gradeData)) {
                 $gradeData = Grade::create([
-                    'classes_student_id' => $classesStudent->id,
+                    'classes_user_id' => $classesStudent->id,
                     'schedule_id' => $request->id,
     
                     'grade' => $grade['grade'],
