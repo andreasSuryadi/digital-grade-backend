@@ -88,7 +88,6 @@ class GradeController extends Controller
     public function getGradeByClass(Request $request, $classId)
     {
         $semester = $request->semester == 0 ? 1 : 2;
-        $nis = $request->nis;
 
         $schedules = Schedule::with(['schoolYear', 'course'])
             ->whereHas('schoolYear', function ($x) use ($semester) {
@@ -96,10 +95,16 @@ class GradeController extends Controller
             })
             ->where('class_id', $classId)
             ->get();
+
+        $classesUser = ClassesUser::where('classes_id', $classId)
+            ->where('user_id', $request->user()->id)
+            ->first();
            
         $listGrades = [];
         foreach ($schedules as $schedule) {
-            $grade = Grade::where('schedule_id', $schedule->id)->first();
+            $grade = Grade::where('schedule_id', $schedule->id)
+                ->where('classes_user_id', $classesUser->id)
+                ->first();
 
             if (!is_null($grade)) {
                 $listGrades[] = [
@@ -132,12 +137,18 @@ class GradeController extends Controller
             })
             ->where('class_id', $classId)
             ->get();
+
+        $classesUser = ClassesUser::where('classes_id', $classId)
+            ->where('user_id', $request->user()->id)
+            ->first();
            
         $listGrades = [];
         $startYear = 0;
         $endYear = 0;
         foreach ($schedules as $schedule) {
-            $grade = Grade::where('schedule_id', $schedule->id)->first();
+            $grade = Grade::where('schedule_id', $schedule->id)
+                ->where('classes_user_id', $classesUser->id)
+                ->first();
 
             $startYear = $schedule->schoolYear->start_year;
             $endYear = $schedule->schoolYear->end_year;
